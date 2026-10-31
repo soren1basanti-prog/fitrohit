@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FitRohit – Calisthenics</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0d10;--card:#151a20;--line:#27303b;--tx:#f2f4f7;--mu:#9aa4b2;--ac:#c6ff3d;--o:#ff8a2b;--r:#ff4d6d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 "Segoe UI",Arial,sans-serif}
+h1,h2,h3,.logo,.time{font-family:Impact,"Arial Narrow",Arial,sans-serif;letter-spacing:.5px;font-weight:400;text-transform:uppercase;margin:0}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
+.logo{font-size:30px}.logo b{color:var(--ac);font-weight:400}
+nav{display:flex;gap:8px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:9px 16px;border-radius:8px}
+button.on,button.pri{background:var(--ac);color:#0b0d10;border-color:var(--ac);font-weight:700}
+main{max-width:1000px;margin:0 auto;padding:20px}
+.hero{padding:26px 0 8px}.hero h1{font-size:clamp(34px,7vw,60px);line-height:1}.hero p{color:var(--mu);max-width:520px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+h2.sec{font-size:24px;margin:28px 0 12px;color:var(--ac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.card[data-i]{cursor:pointer}.card[data-i]:hover{border-color:var(--ac)}
+.fw{background:#10141a;aspect-ratio:1/.8;display:flex;justify-content:center}
+.fw svg{height:100%}
+.cb{padding:12px 14px}.cb h3{font-size:19px;margin:6px 0 2px}.cb p{margin:0;color:var(--mu);font-size:14px}
+.lv{font-size:11px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:99px;color:#0b0d10}
+.l0{background:var(--ac)}.l1{background:var(--o)}.l2{background:var(--r)}
+.bd{fill:none;stroke:var(--ac);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.hd{fill:var(--ac)}.fl{stroke:var(--line);stroke-width:1.5}.bar{stroke:var(--mu);stroke-width:2.5;stroke-linecap:round}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:20px;z-index:20}
+.ov.show{display:flex}
+.md{background:var(--card);border:1px solid var(--line);border-radius:14px;max-width:560px;width:100%;padding:18px}
+.md .fw{border-radius:10px;aspect-ratio:1/.7}
+.md h2{font-size:30px;margin:12px 0 4px}.md h4{margin:16px 0 4px;color:var(--ac);text-transform:uppercase;font-size:13px;letter-spacing:1px}
+.md ol,.md ul{margin:0;padding-left:20px;color:#d5dbe3}
+.rxb{display:inline-block;background:#10141a;border:1px solid var(--line);padding:4px 12px;border-radius:8px;font-weight:700}
+.pick{display:grid;gap:12px;margin-top:16px}
+.pick button{text-align:left;padding:16px}.pick b{display:block;font-size:20px}.pick span{color:var(--mu);font-size:14px}
+.ses{text-align:center;max-width:460px;margin:0 auto}
+.pg{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin-bottom:16px}.pg i{display:block;height:100%;background:var(--ac)}
+.kind{color:var(--ac);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:13px}
+.ses h2{font-size:34px;margin:4px 0 10px}.ses .fw{border-radius:12px;aspect-ratio:1/.75}
+.time{font-size:72px;line-height:1.1;margin:10px 0}.note{color:var(--mu);margin:4px 0}
+.btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;color:var(--mu);font-size:13px;padding:30px 0 20px}
+</style></head><body>
+<header><div class="logo">Fit<b>Rohit</b></div>
+<nav><button id="nl" class="on">Library</button><button id="ng">Guided Session</button></nav></header>
+<main id="app"></main>
+<div class="ov" id="ov"><div class="md" id="md"></div></div>
+<footer>FitRohit – calisthenics for every level. Warm up first, stop if you feel pain.</footer>
+<script>
+const P={
+stand:[50,12,50,26,53,40,53,54,50,52,50,72,50,90],
+squat:[54,40,50,54,62,56,72,56,40,78,66,72,50,90],
+armsUp:[50,12,50,26,54,14,54,2,50,52,50,72,50,90],
+fold:[72,74,60,66,66,78,66,90,40,52,42,72,44,90],
+child:[24,80,34,78,24,86,14,88,62,78,48,88,70,88],
+kneeTop:[22,46,30,54,30,70,30,86,56,64,76,86,92,76],
+kneeDown:[22,74,30,78,42,80,30,86,56,80,76,86,92,76],
+plank:[20,62,28,68,28,86,42,86,60,74,76,80,92,86],
+bridgeDown:[10,84,22,84,32,86,42,86,52,84,66,66,72,86],
+bridgeUp:[10,84,22,84,32,86,42,86,54,66,68,64,74,86],
+push:[22,44,30,52,30,69,30,86,60,67,75,76,90,84],
+pushDown:[22,70,30,76,44,80,30,86,60,80,75,83,90,86],
+hang:[54,26,50,34,50,21,50,8,50,56,50,72,50,88],
+pullTop:[50,14,50,24,57,18,50,8,50,46,50,62,50,78],
+hangRaise:[54,26,50,34,50,21,50,8,50,56,72,56,94,56],
+lsit:[40,28,40,42,40,56,40,70,42,68,66,68,90,68],
+handstand:[54,66,50,56,50,72,50,88,50,38,50,22,50,6]};
+const LV=["Beginner","Intermediate","Advanced"];
+const EX=[
+{n:"Bodyweight Squat",l:0,p:["stand","squat"],s:3,r:"12–15 reps",tg:"Quads, glutes, core",st:["Stand shoulder-width apart, toes slightly out.","Push hips back and bend your knees, chest tall.","Lower until thighs are parallel to the floor.","Drive through your heels to stand."],mk:["Knees caving inward","Heels lifting off the floor","Rounding the lower back"]},
+{n:"Knee Push-up",l:0,p:["kneeTop","kneeDown"],s:3,r:"8–12 reps",tg:"Chest, shoulders, triceps",st:["Kneel with hands just wider than your shoulders.","Keep a straight line from head to knees.","Lower your chest to just above the floor.","Press back up to the start."],mk:["Sagging hips","Flaring elbows wide","Half-range reps"]},
+{n:"Plank",l:0,p:["plank","plank"],s:3,h:30,tg:"Core, shoulders, glutes",st:["Place forearms on the floor, elbows under shoulders.","Extend your legs, toes on the floor.","Squeeze glutes and brace your abs.","Breathe steadily and hold."],mk:["Hips too high or sagging","Holding your breath","Looking up and straining the neck"]},
+{n:"Glute Bridge",l:0,p:["bridgeDown","bridgeUp"],s:3,r:"12–15 reps",tg:"Glutes, hamstrings, lower back",st:["Lie on your back, knees bent, feet flat.","Press through your heels and lift your hips.","Squeeze your glutes at the top for a second.","Lower slowly with control."],mk:["Arching the lower back","Pushing through the toes","Letting knees drift apart"]},
+{n:"Push-up",l:1,p:["push","pushDown"],s:4,r:"10–15 reps",tg:"Chest, shoulders, triceps, core",st:["Start in a high plank, hands under shoulders.","Keep your body in one straight line.","Lower until your chest is a fist away from the floor.","Push the floor away to return."],mk:["Dropping the hips","Elbows flared at 90°","Head poking forward"]},
+{n:"Dead Hang",l:1,p:["hang","hang"],bar:1,s:3,h:20,tg:"Forearms, lats, shoulders",st:["Grip the bar slightly wider than shoulders.","Let your body hang with arms straight.","Gently pull your shoulder blades down.","Breathe and hold for the full time."],mk:["Shrugging up to the ears","Swinging the body","Gripping too tight too early"]},
+{n:"Pull-up",l:1,p:["hang","pullTop"],bar:1,s:4,r:"5–8 reps",tg:"Lats, biceps, upper back",st:["Hang from the bar with an overhand grip.","Pull your shoulder blades down and back.","Drive elbows to your ribs until your chin clears the bar.","Lower fully under control."],mk:["Kipping or swinging","Not reaching full hang","Craning the neck over the bar"]},
+{n:"Hanging Leg Raise",l:2,p:["hang","hangRaise"],bar:1,s:3,r:"8–12 reps",tg:"Lower abs, hip flexors, grip",st:["Hang from the bar with straight arms.","Tilt your pelvis up and brace your core.","Raise straight legs to hip height or higher.","Lower slowly without swinging."],mk:["Using momentum","Bending the knees too much","Letting shoulders shrug up"]},
+{n:"L-Sit",l:2,p:["lsit","lsit"],s:4,h:15,tg:"Core, hip flexors, triceps, shoulders",st:["Place hands on the floor or parallettes beside your hips.","Press down hard and lift your body off the floor.","Extend legs straight in front, toes pointed.","Hold with locked elbows."],mk:["Bent elbows","Shoulders rising to the ears","Knees bending"]},
+{n:"Handstand Hold",l:2,p:["handstand","handstand"],s:4,h:20,tg:"Shoulders, triceps, core, wrists",st:["Kick up with your belly facing a wall.","Stack wrists, shoulders, hips and ankles.","Push tall through your shoulders.","Squeeze legs together and hold."],mk:["Arching the back (banana shape)","Bent elbows","Looking at your hands instead of the floor"]}];
+const WARM=[
+{n:"Arm Circles",p:["stand","armsUp"],h:30,t:"Make big, slow circles forward, then backward."},
+{n:"Slow Squats",p:["stand","squat"],h:30,t:"Move smoothly through a comfortable range."},
+{n:"Wrist Mobility",p:["kneeTop","kneeTop"],h:30,t:"On hands and knees, rock gently and rotate your wrists."},
+{n:"Hip Bridges",p:["bridgeDown","bridgeUp"],h:30,t:"Easy reps to wake up glutes and hips."}];
+const COOL=[
+{n:"Overhead Reach",p:["stand","armsUp"],h:30,t:"Reach tall, lengthen your sides, breathe deeply."},
+{n:"Forward Fold",p:["stand","fold"],h:30,t:"Hinge at the hips and let your upper body hang loose."},
+{n:"Child’s Pose",p:["child","child"],h:30,t:"Sit back on your heels, arms long, relax your shoulders."},
+{n:"Deep Breathing",p:["stand","stand"],h:30,t:"Breathe in for 4 seconds, out for 6."}];
+const $=s=>document.querySelector(s),app=$("#app");
+const rx=e=>e.h?`${e.s} sets × ${e.h}s hold`:`${e.s} sets × ${e.r}`;
+const fig=e=>`<div class="fw"><svg class="fig" viewBox="0 0 100 100" data-a="${e.p[0]}" data-b="${e.p[1]}">${e.bar?'<line class="bar" x1="28" x2="72" y1="7" y2="7"/>':''}<line class="fl" x1="6" x2="94" y1="92" y2="92"/><path class="bd"/><circle class="hd" r="6.5"/></svg></div>`;
+function draw(s,t){const a=s._a,b=s._b,v=a.map((x,i)=>x+(b[i]-x)*t);
+s.querySelector("path").setAttribute("d",`M${v[0]} ${v[1]}L${v[2]} ${v[3]}L${v[8]} ${v[9]}L${v[10]} ${v[11]}L${v[12]} ${v[13]}M${v[2]} ${v[3]}L${v[4]} ${v[5]}L${v[6]} ${v[7]}`);
+const c=s.querySelector("circle");c.setAttribute("cx",v[0]);c.setAttribute("cy",v[1])}
+function initFigs(root){root.querySelectorAll("svg.fig").forEach(s=>{s._a=P[s.dataset.a];s._b=P[s.dataset.b];s._m=s.dataset.a!==s.dataset.b;draw(s,0)})}
+function tick(ts){const t=(1-Math.cos(ts/650))/2;document.querySelectorAll("svg.fig").forEach(s=>{if(s._m)draw(s,t)});requestAnimationFrame(tick)}
+requestAnimationFrame(tick);
+const card=(e,i)=>`<div class="card"${i>=0?` data-i="${i}"`:""}>${fig(e)}<div class="cb">${i>=0?`<span class="lv l${e.l}">${LV[e.l]}</span>`:""}<h3>${e.n}</h3><p>${i>=0?rx(e):e.h+"s · "+e.t}</p></div></div>`;
+let flt=-1;
+function lib(){
+app.innerHTML=`<div class="hero"><h1>Train with your<br>own body.</h1><p>Beginner to advanced calisthenics. Browse every move or start a guided session with warm-up and cool-down.</p></div>
+<div class="filters">${["All",...LV].map((x,i)=>`<button data-f="${i-1}" class="${flt==i-1?"on":""}">${x}</button>`).join("")}<button class="pri" id="go">Start guided session</button></div>
+<div class="grid">${EX.map((e,i)=>flt<0||e.l==flt?card(e,i):"").join("")}</div>
+<h2 class="sec">Warm-up</h2><div class="grid">${WARM.map(e=>card(e,-1)).join("")}</div>
+<h2 class="sec">Cool-down</h2><div class="grid">${COOL.map(e=>card(e,-1)).join("")}</div>`;
+initFigs(app);$("#nl").className="on";$("#ng").className="";stop()}
+app.onclick=ev=>{const f=ev.target.closest("[data-f]");if(f){flt=+f.dataset.f;return lib()}
+if(ev.target.id=="go")return pick();const c=ev.target.closest(".card[data-i]");if(c)openM(EX[c.dataset.i])};
+function openM(e){$("#md").innerHTML=`<button id="x" style="float:right">✕</button><span class="lv l${e.l}">${LV[e.l]}</span>${fig(e)}<h2>${e.n}</h2><span class="rxb">${rx(e)}</span>
+<h4>Muscles targeted</h4><p style="margin:0">${e.tg}</p><h4>How to do it</h4><ol>${e.st.map(x=>`<li>${x}</li>`).join("")}</ol>
+<h4>Common mistakes</h4><ul>${e.mk.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+$("#ov").classList.add("show");initFigs($("#md"));$("#x").onclick=()=>$("#ov").classList.remove("show")}
+$("#ov").onclick=e=>{if(e.target.id=="ov")$("#ov").classList.remove("show")};
+/* guided session */
+let Q=[],qi=0,left=0,paused=false,tm=null;
+function stop(){clearInterval(tm);tm=null}
+function pick(){stop();$("#nl").className="";$("#ng").className="on";
+app.innerHTML=`<div class="hero"><h1>Guided session</h1><p>Warm-up, workout with rest timers, then a cool-down. Choose your level.</p></div>
+<div class="pick">${LV.map((x,i)=>{const n=EX.filter(e=>e.l==i);return `<button data-l="${i}"><b>${x}</b><span>${n.map(e=>e.n).join(" · ")}</span></button>`}).join("")}</div>`;
+app.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>begin(+b.dataset.l))}
+function begin(l){Q=[];WARM.forEach(e=>Q.push({k:"Warm-up",e,d:e.h}));
+const L=EX.filter(e=>e.l==l);L.forEach((e,i)=>{for(let s=1;s<=e.s;s++){Q.push({k:"Workout",e,set:s,d:e.h||0});if(!(i==L.length-1&&s==e.s))Q.push({k:"Rest",d:45})}});
+COOL.forEach(e=>Q.push({k:"Cool-down",e,d:e.h}));qi=0;go()}
+function go(){stop();paused=false;const q=Q[qi];left=q.d;show();if(q.d)tm=setInterval(()=>{if(paused)return;left--;const t=$("#tm");if(t)t.textContent=left;if(left<=0)nxt()},1000)}
+function nxt(){qi++;qi>=Q.length?done():go()}
+function show(){const q=Q[qi],nx=Q[qi+1],ne=q.k=="Rest"&&nx?nx.e:null,e=q.e||ne;
+let h=`<div class="ses"><div class="pg"><i style="width:${qi/Q.length*100}%"></i></div><div class="kind">${q.k}${q.set?` · Set ${q.set}/${q.e.s}`:""}</div>`;
+if(q.k=="Rest")h+=`<h2>Rest</h2>${e?fig(e):""}<p class="note">Next: ${e?e.n:""}</p>`;
+else h+=`<h2>${e.n}</h2>${fig(e)}<p class="note">${q.k=="Workout"?(e.h?`Hold for ${e.h} seconds`:`Target: ${e.r}`)+" · "+e.tg:e.t}</p>`;
+h+=q.d?`<div class="time" id="tm">${left}</div>`:`<div class="time">${e.r}</div>`;
+h+=`<div class="btns">${q.d?`<button id="ps">Pause</button>`:""}${q.d?"":`<button class="pri" id="nx">Set done</button>`}<button id="sk">Skip</button><button id="qt">Quit</button></div></div>`;
+app.innerHTML=h;initFigs(app);
+const b=id=>$("#"+id);if(b("ps"))b("ps").onclick=()=>{paused=!paused;b("ps").textContent=paused?"Resume":"Pause"};
+if(b("nx"))b("nx").onclick=nxt;b("sk").onclick=nxt;b("qt").onclick=lib}
+function done(){stop();app.innerHTML=`<div class="ses"><div class="hero"><h1>Session complete</h1><p style="margin:8px auto">Great work. Drink water and come back tomorrow.</p></div><div class="btns"><button class="pri" id="a">Train again</button><button id="b">Back to library</button></div></div>`;$("#a").onclick=pick;$("#b").onclick=lib}
+$("#nl").onclick=lib;$("#ng").onclick=pick;lib();
+</script></body></html>
